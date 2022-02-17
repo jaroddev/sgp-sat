@@ -1,35 +1,42 @@
 from pysat.formula import CNF
 from pysat.solvers import Lingeling
 
-from model import Data
+from model import Model
+from cli import create_parser
 
 # g - p - w
-def read_parameters():
+def create_model(args):
     formula = CNF()
 
-    group = 4
-    group_size = 2
-    week = 2
+    group = args.group
+    group_size = args.group_size
+    week = args.week
 
-    return Data(formula, group, group_size, week)
+    return Model(formula, group, group_size, week)
 
 
-def run(data):
+def run(model):
 
-    with Lingeling(bootstrap_with=data.formula.clauses, with_proof=True) as solver:
+    with Lingeling(bootstrap_with=model.formula.clauses, with_proof=True) as solver:
         res = solver.solve()
         print(res)
         
         if not res:
             print(solver.get_proof())
+            print("UNSAT")
+            exit(1)
         else:
-            pos = data.decode_results(solver.get_model())
+            pos = model.decode_results(solver.get_model())
             print(pos)
 
 
 if __name__ == "__main__":
-    data = read_parameters()
-    data.generate_formula()
+    parser = create_parser()
+    args = parser.parse_args()
+    model = create_model(args)
 
-    print(len(data.formula.clauses))
-    run(data)
+
+    model.generate_formula()
+    print(len(model.formula.clauses))
+
+    run(model)

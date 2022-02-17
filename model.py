@@ -6,7 +6,7 @@ from constraints.atmostoneplayerpergroupperpos import OnePlayerForEachGroupAndPo
 from constraints.equivalence import Equivalence
 from constraints.socialisation import Socialisation
 
-class Data():
+class Model():
 
     def __init__(self, formula, group, group_size, week):
         """
