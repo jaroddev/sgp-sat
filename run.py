@@ -18,10 +18,10 @@ def create_model(args):
 def run(model):
 
     with Lingeling(bootstrap_with=model.formula.clauses, with_proof=True) as solver:
-        res = solver.solve()
-        print(res)
+        is_sat = solver.solve()
+        print(is_sat)
         
-        if not res:
+        if not is_sat:
             print(solver.get_proof())
             print("UNSAT")
         else:
