@@ -60,5 +60,5 @@ class Model():
             constraint.add_constraint(self)
 
     def decode_results(self, res):
-        pos = [ value for value in res if value > 0 ]
+        pos = [ value for value in res if value > 0 and value > 1000 ]
         return pos
