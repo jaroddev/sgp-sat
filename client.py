@@ -17,11 +17,10 @@ def echo_csv(records):
     filename = f"./{BENCH_REPO}/times.csv"
     header = "group_size;position;week;elapsed\n"
     
-    with open(filename, 'a+') as file:
+    with open(filename, 'w') as file:
         file.write(header)
         for record in records:
             file.write(record)
-            file.write('\n')
         
 
 
@@ -47,9 +46,6 @@ if __name__ == "__main__":
                 record = time_record(group_size, position, week, end-start)
 
                 time_records = f"{time_records}{record}"
-
-                print(cmd)
-                print(record)
     
     echo_csv(time_records)
 
