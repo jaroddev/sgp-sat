@@ -24,7 +24,6 @@ def run(model):
         if not res:
             print(solver.get_proof())
             print("UNSAT")
-            exit(1)
         else:
             pos = model.decode_results(solver.get_model())
             print(pos)
