@@ -27,4 +27,3 @@ Follow the steps:
  `grep -rni "UNSAT" bench/*.out`
 
   - You can look at the csv files to watch the times for each g-p tuples.
- `grep -rni "UNSAT" bench/*.out`
