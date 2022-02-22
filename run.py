@@ -12,8 +12,9 @@ def create_model(args):
     group = args.group
     group_size = args.group_size
     week = args.week
+    name = args.name
 
-    return Model(formula, group, group_size, week)
+    return Model(formula, group, group_size, week, name)
 
 
 def run(model):

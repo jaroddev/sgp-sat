@@ -9,6 +9,6 @@ def create_parser():
     parser.add_argument('-w', "--week", dest='week', type=int, required=True, help="Pass the number of group as a parameter")
 
     # no real implementation for now, only one parser used
-    # parser.add_argument('--solver', dest='solver', help="use a given parser")
+    parser.add_argument('-n','--name', dest='name', help="use a given model")
 
     return parser

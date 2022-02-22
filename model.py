@@ -8,9 +8,14 @@ from constraints.atmostoneplayerpergroupperpos import OnePlayerForEachGroupAndPo
 from constraints.equivalence import Equivalence
 from constraints.socialisation import Socialisation
 
+from constraints.sym1 import Sym1
+from constraints.sym2 import Sym2
+from constraints.sym3 import Sym3
+from constraints.sym4 import Sym4
+
 class Model():
 
-    def __init__(self, formula, group, group_size, week):
+    def __init__(self, formula, group, group_size, week, name="basic",):
         """
             formula is the conjunction of clauses
             group is the number of group
@@ -19,9 +24,8 @@ class Model():
             week = number of week
         """
     
-        # should check if week, group, groupe_size is invalid
-        # should check if formula is nil ??
-        
+        self.name = name
+
         self.formula = formula
 
         self.group = group
@@ -62,6 +66,12 @@ class Model():
             Equivalence(),
             Socialisation(),
         ]
+
+        if self.name == "symup":
+            constraints.append(Sym1())
+            constraints.append(Sym2())
+            constraints.append(Sym3())
+            constraints.append(Sym4())
 
         for constraint in constraints:
             constraint.add_constraint(self)
