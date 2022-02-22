@@ -23,10 +23,12 @@ def run(model):
         print(is_sat)
         
         if not is_sat:
-            # proof = solver.get_proof()
+            proof = solver.get_proof()
+            print(proof)
             print("UNSAT")
         else:
             pos = model.decode_results(solver.get_model())
+            print(pos)
             # instance = create_instance_from_result(model, pos)
             #print(instance)
 
