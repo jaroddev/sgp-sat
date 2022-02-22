@@ -28,25 +28,31 @@ def record_time(group_size, position, week, time):
     return f"{week};{time}\n"
 
 
+def fixed_config(fixed_group_size, fixed_pos):
+    time_records = ""
+
+    for week in range(1,MAX_WEEK + 1):
+
+        cmd = shell_command(fixed_group_size, fixed_pos, week)
+
+        start = time()
+        subprocess.run(cmd, timeout=10 ,shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
+        end = time()
+
+        record = record_time(fixed_group_size, fixed_pos, week, end-start)
+
+        time_records = f"{time_records}{record}"
+
+    echo_csv(fixed_group_size, fixed_pos, time_records)
+
 
 # Tests
 if __name__ == "__main__":
 
-    for group_size in range(1,MAX_GROUP_SIZE + 1):
-        for position in range(1,MAX_POS + 1):
-            time_records = ""
-            
-            for week in range(1,MAX_WEEK + 1):
+    # fixed_config(3, 3)
+    # fixed_config(5, 3)
+    # fixed_config(6, 4)
+    # fixed_config(7, 5)
 
-                cmd = shell_command(group_size, position, week)
-
-                start = time()
-                subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
-                end = time()
-
-                record = record_time(group_size, position, week, end-start)
-
-                time_records = f"{time_records}{record}"
-    
-            echo_csv(group_size, position, time_records)
-
+    # fixed_config(8, 4)
+    # fixed_config(9, 4)
