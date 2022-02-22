@@ -1,0 +1,17 @@
+Package          Version
+---------------- -----------
+attrs            21.4.0
+bidict           0.21.4
+funcy            1.17
+numpy            1.22.2
+parsimonious     0.8.1
+pip              22.0.3
+py-aiger         6.1.20
+pypblib          0.0.4
+pyrsistent       0.18.1
+python-sat       0.1.7.dev15
+setuptools       60.9.0
+six              1.16.0
+sortedcontainers 2.4.0
+toposort         1.7
+wheel            0.37.1
