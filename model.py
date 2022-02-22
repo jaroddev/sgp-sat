@@ -1,3 +1,5 @@
+from numpy import array
+
 from constraints.onceperweek import AtLeastOncePerWeek
 from constraints.atmost import AtMostOncePerGroupPerWeek
 from constraints.onegroupeachweek import OneGroupEachWeek
@@ -29,20 +31,25 @@ class Model():
 
         self.week = week
 
-    @staticmethod
-    def generate_variable(player_id, pos_id, group_id, week_id):
-        # player can be higher than anything
-        # pos cannot be higher than 10
-        # group cannot be higher than 10
-        # week cannot be higher than 10
-        return player_id * 1000 + pos_id * 100 + group_id * 10 + week_id
+        # might be better to just keep this as a temporaru variable
+        self.number_of_var = self.players * group * group_size * week
+        self.number_of_minimal_var = self.players * group * week
 
-    @staticmethod
-    def generate_minimal_variable(player_id, group_id, week_id):
-        # player can be higher than anything
-        # group cannot be higher than 10
-        # week cannot be higher than 10
-        return player_id * 100 + group_id * 10 + week_id
+        var_range = range(1, 1 + self.number_of_var)
+        variables = array(var_range)
+        self.variables = variables.reshape(self.players, group_size, group, week)
+
+        minimal_var_range = range(1 + self.number_of_var, 1 + self.number_of_var + self.number_of_minimal_var)
+        minimal_variables = array(minimal_var_range)
+        self.minimal_variables = minimal_variables.reshape(self.players, group, week)
+
+    def generate_variable(self, player_id, pos_id, group_id, week_id):
+        variable = self.variables[player_id - 1, pos_id - 1, group_id - 1, week_id - 1]
+        return int(variable)
+        
+    def generate_minimal_variable(self, player_id, group_id, week_id):
+        variable =  self.minimal_variables[player_id - 1, group_id - 1, week_id - 1]
+        return int(variable)
 
 
     def generate_formula(self):
@@ -60,5 +67,9 @@ class Model():
             constraint.add_constraint(self)
 
     def decode_results(self, res):
-        pos = [ value for value in res if value > 0 and value > 1000 ]
-        return pos
+        highest_possible_variable = self.players * self.group * self.group_size * self.week
+        return [ 
+            value for value in res 
+            if value > 0 
+            and value < highest_possible_variable + 1 
+        ]

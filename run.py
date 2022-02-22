@@ -3,6 +3,7 @@ from pysat.solvers import Lingeling
 
 from model import Model
 from cli import create_parser
+from sgp import create_instance_from_result
 
 # g - p - w
 def create_model(args):
@@ -22,12 +23,12 @@ def run(model):
         print(is_sat)
         
         if not is_sat:
-            print(solver.get_proof())
+            # proof = solver.get_proof()
             print("UNSAT")
         else:
             pos = model.decode_results(solver.get_model())
-            print(pos)
-
+            # instance = create_instance_from_result(model, pos)
+            #print(instance)
 
 if __name__ == "__main__":
     parser = create_parser()
