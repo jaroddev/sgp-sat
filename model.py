@@ -10,7 +10,6 @@ from constraints.socialisation import Socialisation
 
 from constraints.sym1 import Sym1
 from constraints.sym2 import Sym2
-from constraints.sym3 import Sym3
 from constraints.sym4 import Sym4
 
 class Model():
@@ -47,6 +46,39 @@ class Model():
         minimal_variables = array(minimal_var_range)
         self.minimal_variables = minimal_variables.reshape(self.players, group, week)
 
+    def display(self, solution):
+        message = ""
+               
+        for week in range(len(solution)):
+            message += f"////////////////////////////// week: {week + 1} //////////////////////////////\n"
+            
+            for group in range(len(solution[week])):
+                message += f"------------------- group : {group + 1} -------------------\n"
+
+                for pos in range(len(solution[week][group])):
+                    message += f"pos {pos + 1}: player {solution[week][group][pos]}\n"
+
+
+        return message
+
+    def get_solution(self, result):
+        schedule = []
+    
+        for week_id in range(self.week):
+            week = []
+            for group_id in range(self.group):
+                group = []
+                for pos_id in range(self.group_size):
+                    for player_id in range(self.players):                        
+                        variable = self.variables[player_id, pos_id, group_id, week_id]
+                        if variable in result:
+                            group.append(player_id + 1)
+
+                week.append(group)
+            schedule.append(week)
+
+        return schedule
+
     def generate_variable(self, player_id, pos_id, group_id, week_id):
         variable = self.variables[player_id - 1, pos_id - 1, group_id - 1, week_id - 1]
         return int(variable)
@@ -54,7 +86,6 @@ class Model():
     def generate_minimal_variable(self, player_id, group_id, week_id):
         variable =  self.minimal_variables[player_id - 1, group_id - 1, week_id - 1]
         return int(variable)
-
 
     def generate_formula(self):
         constraints = [
@@ -70,7 +101,6 @@ class Model():
         if self.name == "symup":
             constraints.append(Sym1())
             constraints.append(Sym2())
-            constraints.append(Sym3())
             constraints.append(Sym4())
 
         for constraint in constraints:
