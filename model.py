@@ -98,7 +98,7 @@ class Model():
             Socialisation(),
         ]
 
-        if self.name == "symup":
+        if self.name == "sym":
             constraints.append(Sym1())
             constraints.append(Sym2())
             constraints.append(Sym4())

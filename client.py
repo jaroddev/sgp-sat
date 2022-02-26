@@ -6,7 +6,7 @@ CMD: str = "python3 run.py"
 
 MAX_WEEK = 9
 
-MODEL_NAME = "symup"
+MODEL_NAME = "sym"
 
 def shell_command(group_size, position, week, name=""):
     if name != "":

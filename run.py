@@ -1,8 +1,18 @@
+from time import time
+
 from pysat.formula import CNF
 from pysat.solvers import Lingeling
 
 from model import Model
-from cli import create_parser
+
+
+def run(args):
+    model = create_model(args)
+    start = time()
+    model.generate_formula()
+    solve(model)
+    end = time()
+    print("time: ", end - start)
 
 # g - p - w
 def create_model(args):
@@ -16,11 +26,13 @@ def create_model(args):
     return Model(formula, group, group_size, week, name)
 
 
-def run(model):
+def solve(model):
 
     with Lingeling(bootstrap_with=model.formula.clauses, with_proof=True) as solver:
         is_sat = solver.solve()
-        print(is_sat)
+        
+        print("CL: ", len(model.formula.clauses))
+        print("Variables: ", model.formula.nv)
         
         if not is_sat:
             print("UNSAT")
@@ -29,16 +41,4 @@ def run(model):
             solution = model.get_solution(result)
             instance = model.display(solution)
 
-            # print(instance)
-
-if __name__ == "__main__":
-    parser = create_parser()
-    args = parser.parse_args()
-    model = create_model(args)
-
-
-    model.generate_formula()
-    print(len(model.formula.clauses))
-    print(model.formula.nv)
-
-    run(model)
+            print(instance)
