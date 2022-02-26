@@ -11,6 +11,8 @@ from constraints.socialisation import Socialisation
 from constraints.sym1 import Sym1
 from constraints.sym2 import Sym2
 from constraints.sym4 import Sym4
+from constraints.fixfirstweek import FixFirstWeek
+
 
 class Model():
 
@@ -98,10 +100,13 @@ class Model():
             Socialisation(),
         ]
 
-        if self.name == "sym":
+        if self.name == "sym" or self.name == "symplus":
             constraints.append(Sym1())
             constraints.append(Sym2())
             constraints.append(Sym4())
+
+        if self.name == "symplus":
+            constraints.append(FixFirstWeek())
 
         for constraint in constraints:
             constraint.add_constraint(self)

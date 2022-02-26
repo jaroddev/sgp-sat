@@ -46,18 +46,16 @@ def search(args):
             metric = Metric()
             metric.name_from_model(model)
 
-            print(week)
-
             start = time()
             model.generate_formula()
             solve_instance(model, metric)
             end = time()
 
-            print("blocked ??")
-
             metric.time = end - start
 
-            print(metric)
+            metric.cl = len(model.formula.clauses)
+            metric.var = model.formula.nv
+
             metrics.append(metric)
             week+=1
         except TimeoutError:
@@ -87,6 +85,3 @@ def solve_instance(model, metric):
                 
         if not is_sat:
             raise UNSAT
-
-        metric.cl = len(model.formula.clauses)
-        metric.var = model.formula.nv

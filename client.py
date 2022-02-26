@@ -8,6 +8,7 @@ MAX_WEEK = 9
 
 MODEL_WITHOUT_SYM = "basic"
 MODEL_WITH_SYM = "sym"
+MODEL_WITH_MY_SYM = "symplus"
 
 def shell_command(group_size, position, name=MODEL_WITHOUT_SYM):
     if name != "":
@@ -38,3 +39,4 @@ if __name__ == "__main__":
     for config in configs:
         fixed_config(config[0], config[1], MODEL_WITHOUT_SYM)
         fixed_config(config[0], config[1], MODEL_WITH_SYM)
+        fixed_config(config[0], config[1], MODEL_WITH_MY_SYM)
