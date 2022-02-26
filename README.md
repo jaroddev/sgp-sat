@@ -27,3 +27,11 @@ Follow the steps:
  `grep -rni "UNSAT" bench/*.out`
 
   - You can look at the csv files to watch the times for each g-p tuples.
+
+## Aknowledgment
+
+The custom_timeout.py file was taken from this location:
+ - https://github.com/pnpnpn/timeout-decorator
+
+They also aknowledge that it was derived from another place:
+ - http://www.saltycrane.com/blog/2010/04/using-python-timeout-decorator-uploading-s3/ and https://code.google.com/p/verse-quiz/source/browse/trunk/timeout.py

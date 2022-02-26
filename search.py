@@ -5,6 +5,7 @@ from pysat.solvers import Lingeling
 
 from model import Model
 from writer import write_bench
+from custom_timeout import timeout, TimeoutError
 
 
 class UNSAT(Exception):
@@ -45,17 +46,25 @@ def search(args):
             metric = Metric()
             metric.name_from_model(model)
 
+            print(week)
+
             start = time()
             model.generate_formula()
             solve_instance(model, metric)
             end = time()
+
+            print("blocked ??")
 
             metric.time = end - start
 
             print(metric)
             metrics.append(metric)
             week+=1
+        except TimeoutError:
+            print("too long !!")
+            break
         except UNSAT:
+            print("UNSAT")
             break
     
     write_bench(args.file, metrics)
@@ -71,20 +80,13 @@ def create_model(args):
 
     return Model(formula, group, group_size, week, name)
 
-
+@timeout(10, use_signals=False)
 def solve_instance(model, metric):
-
     with Lingeling(bootstrap_with=model.formula.clauses, with_proof=True) as solver:
         is_sat = solver.solve()
-               
+                
         if not is_sat:
             raise UNSAT
 
         metric.cl = len(model.formula.clauses)
         metric.var = model.formula.nv
-
-        result = model.decode_results(solver.get_model())
-        solution = model.get_solution(result)
-        instance = model.display(solution)
-
-        print(instance)

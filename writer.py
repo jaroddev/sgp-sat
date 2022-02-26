@@ -1,6 +1,8 @@
 import csv
 
 def write_bench(filename, metrics):
+    print(filename)
+    
     with open(filename, 'w') as file:
         writer = csv.writer(file)
         
