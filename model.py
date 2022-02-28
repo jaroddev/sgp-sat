@@ -100,13 +100,15 @@ class Model():
             Socialisation(),
         ]
 
-        if self.name == "sym" or self.name == "symplus":
+        if self.name == "sym":
             constraints.append(Sym1())
             constraints.append(Sym2())
             constraints.append(Sym4())
 
         if self.name == "symplus":
+            constraints.append(Sym1())
             constraints.append(FixFirstWeek())
+            constraints.append(Sym4())
 
         for constraint in constraints:
             constraint.add_constraint(self)
